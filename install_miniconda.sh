@@ -10,7 +10,7 @@ fi
 
 export PATH=${HOME}/miniconda3/bin:${PATH}
 
-source .bashrc
+source ~/.bashrc
 
 conda info || exit 1;
 rm miniconda.sh || exit 1;
