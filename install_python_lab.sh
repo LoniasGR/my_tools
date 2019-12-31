@@ -10,11 +10,11 @@ case $1 in
     -kaldi)     install=6;;
 esac
 
-release="$(tail -n 1 /etc/system-release)"
+release="$(cat /etc/*-release | grep PRETTY_NAME=)"
 case "${release}" in
-    CentOS*)    distro=CentOS;;
-    Ubuntu*)    distro=Ubuntu;;
-    Debian*)    distro=Debian;;
+    *CentOS*)    distro=CentOS;;
+    *Ubuntu*)    distro=Ubuntu;;
+    *Debian*)    distro=Debian;;
     *)      distro="Other";
 esac
 
@@ -61,14 +61,14 @@ if [ "${install}" -lt "2" ]; then
         sudo apt-get update
         sudo apt-get upgrade
 
-        sudo apt-get install -y patch bzip2 curl git moreutils gawk tmux htop python2 gcc g++ make python-dev libz-dev zip automake autoconf sox libtool subversion wget gfortran zlib1g-dev checkinstall
+        sudo apt-get install -y patch bzip2 curl git moreutils gawk tmux htop python2 gcc g++ make python-dev libz-dev zip automake autoconf sox libtool subversion wget gfortran zlib1g-dev
     fi
 fi
 
 
-if [ "${install}" -lt "4" -a "${install}" -ne "2" ]; then 
+if [ "${install}" -lt "4" -a "${install}" -ne "1" ]; then 
     ## Install miniconda
-    bash handy_tools/install_miniconda.sh
+    bash my_tools/install_miniconda.sh
 
     ## Install important python packages
     conda install -y numpy matplotlib jupyter jupyterlab scikit-learn nltk scipy pandas scikit-image tqdm
@@ -90,12 +90,14 @@ if [ "${install}" -lt "6" -a "${install}" -ne "2" -a "${install}" -ne "1" ]; the
     echo 'Working with ' ${NUM_CPUS} ' CPUs.'
     echo 'Installing OpenFST.'
     sleep 15
-    bash handy_tools/install_openfst.sh ${NUM_CPUS} ${OPENFST_VERSION}
+    bash my_tools/install_openfst.sh ${NUM_CPUS} ${OPENFST_VERSION}
 fi
 
 if [ "${install}" -lt "7" -a "${install}" -ne "2" -a "${install}" -ne "1" -a "${install}" -ne "4" ]; then 
     ## Install kaldi
     echo 'Installing kaldi.'
     sleep 15
-    bash handy_tools/install_kaldi.sh ${NUM_CPUS}
+    bash my_tools/install_kaldi.sh ${NUM_CPUS}
 fi
+
+
