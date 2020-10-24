@@ -15,3 +15,4 @@ source ~/.bashrc
 conda info || exit 1;
 rm miniconda.sh || exit 1;
 
+conda install mamba -c conda-forge
